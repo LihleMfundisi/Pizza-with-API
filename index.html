@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="//unpkg.com/alpinejs" defer></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <h1>Pizza Hub</h1>
+  <div>
+    <div x-data="{
+         pizzas: [], 
+         feature: '',
+
+         loadPizza() { 
+          alert('LoadPizzas!')
+          const createListURL ='https://pizza-cart-api.herokuapp.com/api/pizzas';
+          
+          axios
+          .get(createListURL)
+          .then((results) => {
+            this.pizzas = results.data.pizzas;
+
+          }); 
+        },
+
+        loadFeature(){
+          alert('feature dispaly!')
+          const displayFeatureURL = 'https://pizza-cart-api.herokuapp.com/api/pizzas/featured';
+          axios 
+          .get(displayFeatureURL)
+          .then((results) => {
+            this.feature = results.data.feature; 
+          });
+        }
+        
+    }">
+  
+    <template x-for="pizza in pizzas">
+      <img x-bind:src="pizzaImage(pizza)" height="720" alt="">
+    </template>
+    <table class="table">
+      <tr>
+        <td x-text="pizza.flavour"> <button x-on:click="loadPizza()">Show Pizzas</button>
+          <label for=""></label>
+        <span x-text="pizzas"></span>
+        </td>
+        <td x-text="pizza.size"> <button x-on:click="loadFeature()">Featured Pizzas</button>
+        <label></label> 
+        
+      <span x-text="feature"></span></td>
+      </tr>
+    </table>
+       
+    
+
+    
+
+       
+        
+            
+           
+
+        
+      </div>
+    </div>
+</body>
+</html>
